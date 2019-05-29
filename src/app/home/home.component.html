@@ -1,8 +1,8 @@
 <div class="container">
-  <div class="row border border-info">
+  <div class="row border border-light">
     <div class="col-md-10 offset-md-1">
 
-      <div class="form-group has-search mt-2">
+      <div class="form-group has-search mt-5">
           <span class="fa fa-search form-control-feedback"></span>
           <input type="text" class="form-control" placeholder="Search" [(ngModel)]="query" (keyup)=search()>
       </div>
@@ -18,38 +18,41 @@
       <div *ngIf="moviesActive">
         <div class="card bg-light" *ngFor="let movie of filteredMovies">
           <div class="row">
-            <div class="col-12 col-sm-12 col-md-4">
+            <div class="col-12 col-sm-12 col-md-3">
               <img class="card-img-top img-thumbnail float-left" src="{{movie.image}}" alt="Card image cap">
             </div>
-            <div class="col-12 col-sm-12 col-md-6 offset-md-1 p-md-0 m-md-0">
-              <div class="card-body p-0">
+            <div class="col-12 col-sm-12 col-md-9">
+              <div class="card-body p-1">
                 <h5 class="card-title">{{movie.title}}</h5>
                 <p class="card-text">{{movie.description}}</p>
                 <span>Stars: </span>
-                <p class="card-text text-danger d-inline" *ngFor="let actor of movie.cast">{{actor}}, </p>
+                <p class="card-text text-danger d-inline">{{getActors(movie.cast)}} </p>
                 <div class="border border-light bg-white rounded pt-1">
-                  <star-rating [starType]="'svg'" [showHalfStars]="true" [hoverEnabled]="true" [rating]="2.63"
+                  <star-rating [starType]="'svg'" [showHalfStars]="true" [hoverEnabled]="true" [rating]="movie.rating"
                     (ratingChange)="onRatingChange($event, movie)"></star-rating>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="text-center mt-3">
+          <button class="btn btn-primary" (click)="loadMore()">Show more</button>
+        </div>
       </div>
       <div *ngIf="!moviesActive">
         <div class="card bg-light" *ngFor="let show of filteredTvShows">
           <div class="row">
-            <div class="col-12 col-sm-12 col-md-4">
+            <div class="col-12 col-sm-12 col-md-3">
               <img class="card-img-top img-thumbnail float-left" src="{{show.image}}" alt="Card image cap">
             </div>
-            <div class="col-12 col-sm-12 col-md-6 offset-md-1 p-md-0 m-md-0">
-              <div class="card-body p-0">
+            <div class="col-12 col-sm-12 col-md-9">
+              <div class="card-body p-1">
                 <h5 class="card-title">{{show.title}}</h5>
                 <p class="card-text">{{show.description}}</p>
                 <span>Stars: </span>
-                <p class="card-text text-danger d-inline" *ngFor="let actor of show.cast">{{actor}}, </p>
+                <p class="card-text text-danger d-inline">{{getActors(show.cast)}}</p>
                 <div class="border border-light bg-white rounded pt-1">
-                  <star-rating [starType]="'svg'" [showHalfStars]="true" [hoverEnabled]="true" [rating]="3.63" (ratingChange)="onRatingChange($event, show)">
+                  <star-rating [starType]="'svg'" [showHalfStars]="true" [hoverEnabled]="true" [rating]="show.rating" (ratingChange)="onRatingChange($event, show)">
                   </star-rating>
                 </div>
               </div>
