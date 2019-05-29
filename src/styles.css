@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/css-star-rating/css/star-rating.css";
+
+.rating {
+    justify-content: left;
+    align-items: left;
+}
+
+.star.default svg, .star-container .star svg {
+    fill: #ffc058;
+}
+
+.star.default i, .star-container .star i {
+    color: #ffc058;
+}
+
+.rating.color-default .star-container .star svg {
+    fill: #ffc058 !important;
+}
+
+.rating.color-default .star-container .star i {
+    color: #ffc058 !important;
+}
+
+.rating:hover {
+    cursor: pointer;
+}
