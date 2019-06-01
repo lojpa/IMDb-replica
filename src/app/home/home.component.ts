@@ -1,14 +1,15 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { MovieService } from '../shared/movie.service';
-import { Movie } from '../models/movie';
-import { query } from '@angular/core/src/render3';
+import { Movie, MovieType } from '../models/movie';
+import { AuthService } from '../shared/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit  {
 
   movies: Array<Movie> = new Array<Movie>();
   filteredMovies: Array<Movie> = new Array<Movie>();
@@ -16,16 +17,22 @@ export class HomeComponent implements OnInit {
   filteredTvShows: Array<Movie> = new Array<Movie>();
   moviesActive = true;
   query = '';
-  counter = 1;
+  moviesCounter = 1;
+  tvShowsCounter = 1;
 
-  constructor(private movieService: MovieService) {
-   }
+  constructor(private movieService: MovieService, private authService: AuthService, private router: Router) {
+  }
 
   ngOnInit() {
-    this.movieService.getMovies().subscribe(x => this.movies = x);
-    this.movieService.getTVShows().subscribe(x => this.tvShows = x);
-    this.filteredMovies = this.movies;
-    this.filteredTvShows = this.tvShows;
+    this.movieService.getMovies(10, 0).subscribe(x => {
+      this.movies = x;
+      this.filteredMovies = x;
+    });
+
+    this.movieService.getMovies(10, 1).subscribe(x => {
+      this.tvShows = x;
+      this.filteredTvShows = x;
+    });
   }
 
   setActive(activeTab: string) {
@@ -37,9 +44,19 @@ export class HomeComponent implements OnInit {
   }
 
   loadMore() {
-    this.counter++;
-    this.movieService.getMovies(10 * this.counter).subscribe(x => this.movies = x);
-    this.filteredMovies = this.movies;
+    if (this.moviesActive) {
+      this.moviesCounter++;
+      this.movieService.getMovies(this.moviesCounter * 10, 0).subscribe(x => {
+        this.movies = x;
+        this.filteredMovies = x;
+      });
+    } else {
+      this.tvShowsCounter++;
+      this.movieService.getMovies(this.tvShowsCounter * 10, 1).subscribe(x => {
+        this.tvShows = x;
+        this.filteredTvShows = x;
+      });
+    }
   }
 
   getActors(actors: Array<string>): string {
@@ -56,8 +73,8 @@ export class HomeComponent implements OnInit {
       this.filteredTvShows = this.tvShows;
     } else if (this.query.includes('at least')) {
       const stars = parseInt(this.query[9], 10);
-      this.filteredMovies = this.movies.filter(item => item.rating > stars);
-      this.filteredTvShows = this.tvShows.filter(item => item.rating > stars);
+      this.filteredMovies = this.movies.filter(item => item.rating >= stars);
+      this.filteredTvShows = this.tvShows.filter(item => item.rating >= stars);
     } else if (this.query.includes('older than')) {
       const year = parseInt(this.query.substring(11, 16), 10);
       this.filteredMovies = this.movies.filter(item => item.releaseDate.getFullYear() < year);
@@ -77,7 +94,5 @@ export class HomeComponent implements OnInit {
   }
 
   onRatingChange(rating: number, movie: Movie) {
-    console.log(rating, movie);
   }
-
 }

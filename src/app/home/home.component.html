@@ -19,7 +19,7 @@
         <div class="card bg-light" *ngFor="let movie of filteredMovies">
           <div class="row">
             <div class="col-12 col-sm-12 col-md-3">
-              <img class="card-img-top img-thumbnail float-left" src="{{movie.image}}" alt="Card image cap">
+              <img class="card-img-top img-thumbnail float-left" src="{{movie.imageUrl}}" alt="Card image cap">
             </div>
             <div class="col-12 col-sm-12 col-md-9">
               <div class="card-body p-1">
@@ -43,7 +43,7 @@
         <div class="card bg-light" *ngFor="let show of filteredTvShows">
           <div class="row">
             <div class="col-12 col-sm-12 col-md-3">
-              <img class="card-img-top img-thumbnail float-left" src="{{show.image}}" alt="Card image cap">
+              <img class="card-img-top img-thumbnail float-left" src="{{show.imageUrl}}" alt="Card image cap">
             </div>
             <div class="col-12 col-sm-12 col-md-9">
               <div class="card-body p-1">
@@ -58,6 +58,9 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="text-center mt-3">
+          <button class="btn btn-primary" (click)="loadMore()">Show more</button>
         </div>
       </div>
     </div>

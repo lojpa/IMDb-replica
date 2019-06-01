@@ -6,8 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './shared/auth/auth.guard';
 
 const appRoutes: Routes = [
-  { path: '',   redirectTo: '/login', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: '',   redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent }
 ];
 
