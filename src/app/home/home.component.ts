@@ -1,15 +1,16 @@
-import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { MovieService } from '../shared/movie.service';
 import { Movie, MovieType } from '../models/movie';
 import { AuthService } from '../shared/auth/auth.service';
 import { Router } from '@angular/router';
+import { ClickEvent } from 'angular-star-rating';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit  {
+export class HomeComponent implements OnInit, AfterViewChecked {
 
   movies: Array<Movie> = new Array<Movie>();
   filteredMovies: Array<Movie> = new Array<Movie>();
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit  {
   query = '';
   moviesCounter = 1;
   tvShowsCounter = 1;
+  isLoading = true;
 
   constructor(private movieService: MovieService, private authService: AuthService, private router: Router) {
   }
@@ -33,6 +35,10 @@ export class HomeComponent implements OnInit  {
       this.tvShows = x;
       this.filteredTvShows = x;
     });
+  }
+
+  ngAfterViewChecked(): void {
+    this.isLoading = false;
   }
 
   setActive(activeTab: string) {
@@ -93,6 +99,13 @@ export class HomeComponent implements OnInit  {
     }
   }
 
-  onRatingChange(rating: number, movie: Movie) {
+  onRatingChange(rating: ClickEvent, movie: Movie) {
+    if (!this.authService.isAuthenticated()) {
+      if (confirm('You should be logged to perform this action, do you want to login?')) {
+        this.router.navigate(['login']);
+      }
+    } else {
+      this.movieService.rateMovie(rating.rating, movie).subscribe(x => x);
+    }
   }
 }

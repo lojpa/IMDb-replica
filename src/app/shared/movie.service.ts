@@ -1,20 +1,32 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { Movie } from '../models/movie';
 import { map, catchError } from 'rxjs/operators';
+import { AuthService } from './auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   testExtractDate; // just demo purposes only
 
   getMovies(numberOfItemsToTake: number = 10, movieType: number = 2): Observable<Array<Movie>> {
     return this.http.get<Array<Movie>>(`https://localhost:44337/api/movie/${numberOfItemsToTake}/${movieType}`).pipe(map(x => x));
+  }
+
+  rateMovie(rating: number, movie: Movie): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${this.auth.getToken()}`
+      })
+    };
+    return this.http.patch(`https://localhost:44337/api/movie/${movie.id}`, rating, httpOptions)
+    .pipe(map(x => x), catchError(this.handleError));
   }
 
   getConfig() { // just demo purposes only
