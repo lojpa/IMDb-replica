@@ -1,3 +1,9 @@
+<div *ngIf="rateSuccess" class="alert alert-success" role="alert">
+    You rated movie succesfully.
+</div>
+<div *ngIf="rateFailure" class="alert alert-danger" role="alert">
+    Something went wrong.
+</div>
 <div class="container">
   <div class="row border border-light">
     <div class="col-md-10 offset-md-1">
@@ -27,7 +33,7 @@
                 <p class="card-text">{{movie.description}}</p>
                 <span>Stars: </span>
                 <p class="card-text text-danger d-inline">{{getActors(movie.cast)}} </p>
-                <div>Rating: {{movie.rating}}</div>
+                <div>Rating: {{movie.rating | number : '1.1-1'}}</div>
                 <div class="border border-light rounded pt-1">
                   <star-rating [starType]="'svg'" [showHalfStars]="true" [hoverEnabled]="true" [rating]="movie.rating"
                     (starClickChange)="onRatingChange($event, movie)"></star-rating>
@@ -52,7 +58,7 @@
                 <p class="card-text">{{show.description}}</p>
                 <span>Stars: </span>
                 <p class="card-text text-danger d-inline">{{getActors(show.cast)}}</p>
-                <div>Rating: {{show.rating}}</div>
+                <div>Rating: {{show.rating | number : '1.1-1'}}</div>
                 <div class="border border-light rounded pt-1">
                   <star-rating [starType]="'svg'" [showHalfStars]="true" [hoverEnabled]="true" [rating]="show.rating" (starClickChange)="onRatingChange($event, show)">
                   </star-rating>

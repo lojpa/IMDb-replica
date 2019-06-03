@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit, AfterViewChecked {
   moviesCounter = 1;
   tvShowsCounter = 1;
   isLoading = true;
+  rateSuccess = false;
+  rateFailure = false;
 
   constructor(private movieService: MovieService, private authService: AuthService, private router: Router) {
   }
@@ -105,7 +107,9 @@ export class HomeComponent implements OnInit, AfterViewChecked {
         this.router.navigate(['login']);
       }
     } else {
-      this.movieService.rateMovie(rating.rating, movie).subscribe(x => x);
+      this.movieService.rateMovie(rating.rating, movie).subscribe(x => this.rateSuccess = true, error => this.rateFailure = true);
+      setTimeout(() => this.rateSuccess = false, 5000);
+      setTimeout(() => this.rateFailure = false, 5000);
     }
   }
 }
