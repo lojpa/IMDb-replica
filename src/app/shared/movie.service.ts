@@ -12,8 +12,6 @@ export class MovieService {
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
-  testExtractDate; // just demo purposes only
-
   getMovies(numberOfItemsToTake: number = 10, movieType: number = 2): Observable<Array<Movie>> {
     return this.http.get<Array<Movie>>(`https://localhost:44337/api/movie/${numberOfItemsToTake}/${movieType}`).pipe(map(x => x));
   }
@@ -22,19 +20,12 @@ export class MovieService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
+        // tslint:disable-next-line:object-literal-key-quotes
         'Authorization': `Bearer ${this.auth.getToken()}`
       })
     };
     return this.http.patch(`https://localhost:44337/api/movie/${movie.id}`, rating, httpOptions)
     .pipe(map(x => x), catchError(this.handleError));
-  }
-
-  getConfig() { // just demo purposes only
-    return this.http.get<string>('this.configUrl')
-      .pipe(
-        map(this.testExtractDate),
-        catchError(this.handleError)
-      );
   }
 
   private handleError(error: HttpErrorResponse) {

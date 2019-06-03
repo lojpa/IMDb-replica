@@ -27,7 +27,8 @@
                 <p class="card-text">{{movie.description}}</p>
                 <span>Stars: </span>
                 <p class="card-text text-danger d-inline">{{getActors(movie.cast)}} </p>
-                <div class="border border-light bg-white rounded pt-1">
+                <div>Rating: {{movie.rating}}</div>
+                <div class="border border-light rounded pt-1">
                   <star-rating [starType]="'svg'" [showHalfStars]="true" [hoverEnabled]="true" [rating]="movie.rating"
                     (starClickChange)="onRatingChange($event, movie)"></star-rating>
                 </div>
@@ -51,7 +52,8 @@
                 <p class="card-text">{{show.description}}</p>
                 <span>Stars: </span>
                 <p class="card-text text-danger d-inline">{{getActors(show.cast)}}</p>
-                <div class="border border-light bg-white rounded pt-1">
+                <div>Rating: {{show.rating}}</div>
+                <div class="border border-light rounded pt-1">
                   <star-rating [starType]="'svg'" [showHalfStars]="true" [hoverEnabled]="true" [rating]="show.rating" (starClickChange)="onRatingChange($event, show)">
                   </star-rating>
                 </div>
