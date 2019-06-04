@@ -11,6 +11,6 @@ IMPORTANT:
 4. Wait untill project get and install all necessary dependencies
 5. In terminal run command: ng serve
 6. Open browser and navigate to "http://localhost:4200/"
-6. Credentials - username: user, password: 1234 ( data necessary for login in order to 
+6. Credentials - username: user, password: 1234 ( data necessary for login in order to rate movie )
 
 
