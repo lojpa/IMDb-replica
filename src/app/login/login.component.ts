@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   private formGroup: FormGroup;
   private returnUrl: string;
+  errorMessage = false;
   constructor(private authService: AuthService, private router: Router,
               private activated: ActivatedRoute, private formBuilder: FormBuilder) { }
 
@@ -37,7 +38,9 @@ export class LoginComponent implements OnInit {
       this.formGroup.setErrors({
         notAuthorized: true
       });
+      this.errorMessage = true;
     });
+    setTimeout(() => this.errorMessage = false, 2000);
   }
 
 }

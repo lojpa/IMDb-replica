@@ -108,8 +108,8 @@ export class HomeComponent implements OnInit, AfterViewChecked {
       }
     } else {
       this.movieService.rateMovie(rating.rating, movie).subscribe(x => this.rateSuccess = true, error => this.rateFailure = true);
-      setTimeout(() => this.rateSuccess = false, 5000);
-      setTimeout(() => this.rateFailure = false, 5000);
+      setTimeout(() => this.rateSuccess = false, 2000);
+      setTimeout(() => this.rateFailure = false, 2000);
     }
   }
 }
